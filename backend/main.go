@@ -1,8 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"backend/testpackage"
+)
 
 func main() {
-	fmt.Println("Hello World")
+	testpackage.MyFunction()
 
 }
