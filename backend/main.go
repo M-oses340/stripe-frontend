@@ -5,6 +5,7 @@ import (
 )
 
 func main() {
-	testpackage.MyFunction()
+	var step int = 1
+	testpackage.MyFunction(step)
 
 }
