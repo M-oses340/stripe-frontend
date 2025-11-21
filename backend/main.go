@@ -1,11 +1,13 @@
 package main
 
 import (
-	"backend/testpackage"
+	"fmt"
 )
 
 func main() {
-	var step int = 1
-	testpackage.MyFunction(step)
+	var right int = 1
+	var left int = 5
+
+	fmt.Println(right, left+right)
 
 }
