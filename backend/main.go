@@ -2,22 +2,21 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 )
 
 func main() {
-	//http.HandleFunc("/create-payment-intent", handleCreatePaymentIntent)
+	http.HandleFunc("/create-payment-intent", handleCreatePaymentIntent)
 
-	var caughtValue string = returnsValue()
-
-	fmt.Println(caughtValue)
-
+	addr := "localhost:4242"
+	err := http.ListenAndServe(addr, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
-func handleCreatePaymentIntent(writer http.ResponseWriter, request *http.Request) {
+func handleCreatePaymentIntent(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Endpoint Called")
-
-}
-func returnsValue() string {
-	return "Hello World"
+	fmt.Fprintln(w, "Payment intent endpoint reached!")
 }
