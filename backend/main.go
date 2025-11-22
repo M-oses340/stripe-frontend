@@ -18,5 +18,5 @@ func main() {
 
 func handleCreatePaymentIntent(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Endpoint Called")
-	fmt.Fprintln(w, "Payment intent endpoint reached!")
+
 }
