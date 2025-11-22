@@ -6,6 +6,18 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {})
+	//http.HandleFunc("/create-payment-intent", handleCreatePaymentIntent)
 
+	var caughtValue string = returnsValue()
+
+	fmt.Println(caughtValue)
+
+}
+
+func handleCreatePaymentIntent(writer http.ResponseWriter, request *http.Request) {
+	fmt.Println("Endpoint Called")
+
+}
+func returnsValue() string {
+	return "Hello World"
 }
