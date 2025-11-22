@@ -3,26 +3,28 @@ package main
 import (
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 )
 
 func main() {
-	http.HandleFunc("/create-payment-intent", handleCreatePaymentIntent)
-
-	addr := "localhost:4242"
-	err := http.ListenAndServe(addr, nil)
+	err := returnsError("wrongpassword")
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("Password OK!")
 	}
 }
 
-func returnsError() error {
-	return errors.New("something went wrong")
+func returnsError(password string) error {
+	secretPassword := "supersecret"
 
+	if password != secretPassword {
+		return errors.New("password does not match")
+	}
+
+	return nil
 }
 
 func handleCreatePaymentIntent(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Endpoint Called")
-
 }
