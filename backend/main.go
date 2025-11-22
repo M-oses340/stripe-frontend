@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -14,6 +15,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func returnsError() error {
+	return errors.New("something went wrong")
+
 }
 
 func handleCreatePaymentIntent(w http.ResponseWriter, r *http.Request) {
