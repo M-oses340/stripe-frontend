@@ -15,14 +15,28 @@ import AddressForm from "./AddressForm";
 import StripePayment from "./StripePayment";
 
 const steps = ["Shipping address", "Payment"];
-
 const theme = createTheme();
 
-export default function Checkout({ customerData }) {
+export default function Checkout() {
+  const [activeStep, setActiveStep] = React.useState(0);
+
+  // ✅ customerData state
+  const [customerData, setCustomerData] = React.useState({
+    product_id: "Forever Pants",
+    first_name: "",
+    last_name: "",
+    address_1: "",
+    address_2: "",
+    city: "",
+    state: "",
+    zip: "",
+    country: "KE",
+  });
+
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <AddressForm customerData={customerData} />;
+        return <AddressForm customerData={customerData} setCustomerData={setCustomerData} />;
       case 1:
         return <StripePayment customerData={customerData} />;
       default:
@@ -30,30 +44,12 @@ export default function Checkout({ customerData }) {
     }
   }
 
-  const [activeStep, setActiveStep] = React.useState(0);
-
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar
-        position="absolute"
-        color="default"
-        elevation={0}
-        sx={{
-          position: "relative",
-          borderBottom: (t) => `1px solid ${t.palette.divider}`,
-        }}
-      >
+      <AppBar position="absolute" color="default" elevation={0} sx={{ position: "relative", borderBottom: (t) => `1px solid ${t.palette.divider}` }}>
         <Toolbar>
-          <Typography component="h1" variant="h4" align="center">
+          <Typography component="h1" variant="h4" align="center" sx={{ flexGrow: 1 }}>
             Company name
           </Typography>
         </Toolbar>
@@ -70,22 +66,24 @@ export default function Checkout({ customerData }) {
               </Step>
             ))}
           </Stepper>
-          <React.Fragment>
-            {getStepContent(activeStep)}
-            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-              {activeStep !== 0 && (
-                <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                  Back
-                </Button>
-              )}
-
-              {activeStep === steps.length - 1 ? null : (
-                <Button variant="contained" onClick={handleNext} sx={{ mt: 3, ml: 1 }}>
-                  Next
-                </Button>
-              )}
-            </Box>
-          </React.Fragment>
+          {getStepContent(activeStep)}
+          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+            {activeStep !== 0 && (
+              <Button onClick={() => setActiveStep((prev) => prev - 1)} sx={{ mt: 3, ml: 1 }}>
+                Back
+              </Button>
+            )}
+            {activeStep < steps.length - 1 && (
+              <Button
+                variant="contained"
+                onClick={() => setActiveStep((prev) => prev + 1)}
+                sx={{ mt: 3, ml: 1 }}
+                disabled={!customerData.first_name || !customerData.address_1 || !customerData.city}
+              >
+                Next
+              </Button>
+            )}
+          </Box>
         </Paper>
       </Container>
     </ThemeProvider>
